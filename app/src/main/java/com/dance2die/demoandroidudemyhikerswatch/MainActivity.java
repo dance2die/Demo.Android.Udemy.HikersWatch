@@ -1,6 +1,8 @@
 package com.dance2die.demoandroidudemyhikerswatch;
 
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -77,9 +83,25 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         Double lat = location.getLatitude();
         Double lng = location.getLongitude();
+        Double alt = location.getAltitude();
+        Float bearing = location.getBearing();
+        Float speed = location.getSpeed();
+        Float accuracy = location.getAccuracy();
 
-        Log.i("Location Info: Lat", lat.toString());
-        Log.i("Location Info: Lng", lng.toString());
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Log.i("Place Info", addresses.get(0).toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("log:Lat", lat.toString());
+        Log.i("log:Lng", lng.toString());
+        Log.i("log:alt", alt.toString());
+        Log.i("log:bearing", bearing.toString());
+        Log.i("log:speed", speed.toString());
+        Log.i("log:accuracy", accuracy.toString());
     }
 
     @Override
