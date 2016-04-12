@@ -92,9 +92,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Altitude: 13m"
+        android:id="@+id/altitude"
+        android:layout_below="@+id/bearing"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textColor="#151515" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Address: \n76 Fake Street"
         android:id="@+id/address"
-        android:layout_below="@+id/bearing"
+        android:layout_below="@+id/altitude"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:textSize="20sp"

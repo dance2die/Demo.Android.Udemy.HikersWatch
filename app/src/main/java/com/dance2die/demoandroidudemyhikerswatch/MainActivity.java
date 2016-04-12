@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +25,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private LocationManager locationManager;
     private String provider;
+
+    private TextView latTV;
+    private TextView lngTV;
+    private TextView accuracyTV;
+    private TextView speedTV;
+    private TextView bearingTV;
+    private TextView altitudeTV;
+    private TextView addressTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
+
+        latTV = (TextView) findViewById(R.id.lat);
+        lngTV = (TextView) findViewById(R.id.lng);
+        accuracyTV = (TextView) findViewById(R.id.accuracy);
+        speedTV = (TextView) findViewById(R.id.speed);
+        bearingTV = (TextView) findViewById(R.id.bearing);
+        altitudeTV = (TextView) findViewById(R.id.altitude);
+        addressTV = (TextView) findViewById(R.id.address);
     }
 
     @Override
@@ -91,10 +108,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            Log.i("Place Info", addresses.get(0).toString());
+            if (addresses.size() > 0){
+                Log.i("Place Info", addresses.get(0).toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        latTV.setText("Latitude: " + lat);
+        lngTV.setText("Longitude: " + lng);
+        altitudeTV.setText("Altitude: " + alt + "m");
+        bearingTV.setText("Bearing: " + bearing);
+        speedTV.setText("Speed: " + speed + "m/s");
+        accuracyTV.setText("Accuracy: " + accuracy + "m");
 
         Log.i("log:Lat", lat.toString());
         Log.i("log:Lng", lng.toString());
