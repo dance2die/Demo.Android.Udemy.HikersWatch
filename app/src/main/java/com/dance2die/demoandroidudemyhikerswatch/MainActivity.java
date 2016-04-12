@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         bearingTV = (TextView) findViewById(R.id.bearing);
         altitudeTV = (TextView) findViewById(R.id.altitude);
         addressTV = (TextView) findViewById(R.id.address);
+
+        Location location = locationManager.getLastKnownLocation(provider);
+        onLocationChanged(location);
     }
 
     @Override
@@ -108,8 +111,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses.size() > 0){
+            if (addresses != null && addresses.size() > 0){
                 Log.i("Place Info", addresses.get(0).toString());
+
+                String addressHolder = "";
+                for (int i = 0; i <= addresses.get(0).getMaxAddressLineIndex(); i++){
+                    addressHolder += addresses.get(0).getAddressLine(i) + "\n";
+                }
+
+                addressTV.setText("Address:\n" + addressHolder);
+            } else {
+                addressTV.setText("");
             }
         } catch (IOException e) {
             e.printStackTrace();
